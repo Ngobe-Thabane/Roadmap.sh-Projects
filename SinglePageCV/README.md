@@ -12,7 +12,7 @@ This project was inspired by the [Roadmap.sh - [Single-Page CV]](https://roadmap
 
 ## Live Demo
 
-[View it here](https://your-live-demo-url.com)
+[View it here](https://ngobe-thabane.github.io/Roadmap.sh-Projects/SinglePageCV/)
 
 ---
 

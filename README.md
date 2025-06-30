@@ -6,5 +6,6 @@ This repository contains a collection of projects completed while following [roa
 
 | Project Name       | Roadmap Link                                  | Live Demo                         | Repo/Folder |
 |--------------------|-----------------------------------------------|-----------------------------------|-------------|
-| Single Page CV     | [Frontend Roadmap](https://roadmap.sh/projects/single-page-cv) | [Live](https://example.com/todo) | [Single-Page CV](./SinglePageCV) |
-
+| Single Page CV     | [Frontend Roadmap](https://roadmap.sh/projects/single-page-cv) | [Live](https://ngobe-thabane.github.io/Roadmap.sh-Projects/SinglePageCV/) | [Single-Page CV](./SinglePageCV) |
+| Dictionary App     | Frontend                   |[Live](https://ngobe-thabane.github.io/Roadmap.sh-Projects/DictionaryApp) |[DictionaryApp](./DictinaryApp/)|
+| Digital Clock | [Frontend Roadmap](https://roadmap.sh/full-stack) | [Live](https://ngobe-thabane.github.io/Roadmap.sh-Projects/DigitalClock) |[Digital Clock](./DigitalClock/)|
