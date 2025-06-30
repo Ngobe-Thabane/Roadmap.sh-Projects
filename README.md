@@ -6,6 +6,5 @@ This repository contains a collection of projects completed while following [roa
 
 | Project Name       | Roadmap Link                                  | Live Demo                         | Repo/Folder |
 |--------------------|-----------------------------------------------|-----------------------------------|-------------|
-| Todo List App      | [Frontend Roadmap](https://roadmap.sh/frontend) | [Live](https://example.com/todo) | [todo-app](./To-Do-List) |
-| RESTful API Server | [Backend Roadmap](https://roadmap.sh/backend)  | –                                 | [api-server](./api-server) |
-| Portfolio Website  | [Frontend Roadmap](https://roadmap.sh/frontend) | [Live](https://yourdomain.com)   | [portfolio](./portfolio) |
+| Single Page CV     | [Frontend Roadmap](https://roadmap.sh/projects/single-page-cv) | [Live](https://example.com/todo) | [Single-Page CV](./SinglePageCV) |
+
