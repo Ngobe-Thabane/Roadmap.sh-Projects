@@ -1,0 +1,83 @@
+.navigation{
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: space-around;
+  align-items: center;
+}
+
+.logo{
+  font-size: 2em;
+  font-weight: 600;
+}
+
+.photos-link{
+  list-style: none;
+  display: flex;
+  gap: 2em;
+}
+
+.photos-link > li> button{
+  cursor: pointer;
+  padding: .2em .5em;
+  border-radius: .5em;
+  background: transparent;
+  border: 1px solid rgba(175, 39, 39, 0.164);
+  font-size: 1.2em;
+
+}
+.photos-link > li> :hover{
+  background-color:black;
+  color: white;
+  border-color: black;
+}
+
+.photos-container{
+  display: grid;
+  grid-template-columns: repeat(3,  1fr);
+  grid-template-rows: repeat(3, 250px); 
+  border: 1.5px solid rgba(175, 39, 39, 0.164);
+  gap: .2em;
+  padding: .1em;
+  width: 65vw;
+  margin: 0em auto;
+  border-radius: .2em;
+}
+
+.pic{
+  width: 100%;
+  height: fit-content;
+  object-fit: cover;
+}
+
+.pic-0{
+  grid-row: span 2;
+}
+
+.pic-1{
+  grid-column: 3/3;
+  grid-row: span 2;
+}
+
+.pic-3{
+  grid-column: 2;
+  grid-row: 1;
+}
+.pic-2{
+  grid-row: span 2;
+}
+
+
+@media (max-width: 700px){
+  .photos-link{
+    display: none;
+  }
+  .photos-container{
+    grid-template-columns: repeat(2, 1fr);
+    width: unset;
+    height: unset;
+  }
+  .pic-0, .pic-1, .pic-2, .pic-3{
+    grid-row: unset;
+    grid-column: unset;
+  }
+}

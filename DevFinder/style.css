@@ -1,0 +1,150 @@
+
+:root{
+
+  --clr-blue: 212, 100%, 50%;
+  --clr-gray: 217, 20%, 51%;
+  --clr-blue-gray: 217, 35%, 45%;
+  --clr-light-black: 217, 21%, 21%;
+  --clr-dark-white: 227, 100%, 98%;
+  --clr-white: 0, 0%, 100%;
+  --clr-black: 220, 40%, 13%;
+  --clr-dark-blue: 222, 41%, 20%;
+
+  --ff-primary: 'Space Mono', monospace;
+
+}
+*{
+  padding: 0;
+  margin: 0;
+}
+
+body{
+  font-size: 0.9375rem;
+  font-family: var(--ff-primary);
+  background-color: hsl(var(--clr-black));
+  color: #FFFFFF;
+}
+
+.container{
+  min-height: 100%;
+  max-width: 700px;
+  margin: 2em auto;
+  display: flex;
+  flex-direction: column;
+  gap: 2em;
+}
+
+input{
+  appearance: none;
+  border: none;
+  outline: none;
+  background-color: transparent;
+  flex-grow: 1;
+  caret-color: hsl(var(--clr-blue));
+  font-size: 1.5em;    
+}
+
+input::placeholder{
+  font-family: var(--ff-primary);
+}
+
+
+.intro-div{
+  display: flex;
+  gap: 2em;
+}
+.user-data{
+  display: flex;
+  flex-direction: column;
+  gap: 2em;
+  flex: 1;
+}
+
+.user-bio{
+  margin-top: 2em;
+}
+.user-container{
+  display: none;
+  gap: 2em;
+  padding: 1em;
+  border-radius: 1.5em;
+  background-color: hsl(var(--clr-dark-blue));
+}
+
+.socials-div{
+  display: flex;
+  justify-content: space-between;
+  padding: 15px;
+  border-radius: 10px;
+  margin-bottom: 25px;
+  background-color: hsl(var(--clr-black));
+  filter: drop-shadow(0px 4px 4px rgba(0, 0, 0, 0.50));
+}
+
+.value{
+  font-weight: 700;
+  font-size: 1.5em;
+  align-self: center;
+  color: #FFFFFF;
+
+}
+.socials-data{
+  display: flex;
+  flex-direction: column;
+  gap: 1em;
+}
+.avator{
+  width: 100px;
+  height: 100px;
+  border-radius: 50%;
+}
+.search-icon{
+  width: 30px;
+  height: 30px;
+}
+
+.search-container{
+  display: flex;
+  align-items: center;
+  gap: 1em;
+  background-color: hsl(var(--clr-dark-blue));
+  padding: .6em .5em;
+  border-radius: .6em;
+}
+
+.btn-search{
+  appearance: none;
+  border: none;
+  background-color: hsl(var(--clr-blue));
+  padding: 5px;
+  color: hsl(var(--clr-white));
+  font-weight: 700;
+  border-radius: 10px;
+  filter: drop-shadow(0px 4px 4px rgba(0, 0, 0, 0.25));
+  height: 50px;
+  width: 106px;
+  cursor: pointer;
+}
+
+.username{
+  flex: 1;
+  font-weight: 700;
+  color: hsl(var(--clr-blue));
+}
+
+
+.social-div{
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: 1em;
+}
+
+.social{
+  display: flex;
+  gap: 1.5em;
+  justify-items:flex-start;
+}
+
+a{
+  color: inherit;
+}

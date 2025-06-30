@@ -1,0 +1,131 @@
+
+@import url('https://fonts.googleapis.com/css2?family=Josefin+Sans:ital,wght@0,100..700;1,100..700&display=swap');
+
+
+*{
+  margin: 0;
+  padding: 0;
+}
+
+
+:root{
+  --Bright-Blue: hsl(220, 98%, 61%);
+  /* --Check-Background: linear-gradient hsl(192, 100%, 67%) to hsl(280, 87%, 65%); */
+  --Very-Dark-Blue: hsl(235, 21%, 11%);
+  --Very-Dark-Desaturated-Blue: hsl(235, 24%, 19%);
+  --Light-Grayish-Blue: hsl(234, 39%, 85%);
+  --Light-Grayish-Blue : hsl(236, 33%, 92%);
+  --Dark-Grayish-Blue: hsl(234, 11%, 52%);
+  --Very-Dark-Grayish-Blue: hsl(233, 14%, 35%);
+  --Very-Dark-Grayish-Blue: hsl(237, 14%, 26%);
+}
+
+body{
+  background-color: var(--Very-Dark-Blue);
+  background-repeat: no-repeat;
+  background-size:cover;
+  display: flex;
+  flex-direction: column;
+}
+
+.image{
+  width: 100vw;
+  position: absolute;
+  z-index: -1;
+}
+.app-heading{
+  font-size: 2em;
+}
+.container{
+  box-sizing: border-box;
+  display: flex;
+  flex-direction: column;
+  gap: 2em;
+  width: 50%;
+  margin: 8.5em auto;
+}
+
+.heading-container{
+  display: flex;
+  justify-content: space-between;
+  color: var(--Light-Grayish-Blue);
+}
+
+button{
+  background-color: transparent;
+  border: none;
+  outline: none;
+  font-size: 2em;
+  cursor: pointer;
+}
+
+button:hover{
+  color: var(--Bright-Blue);
+}
+.input-container{
+  background-color: var(--Very-Dark-Grayish-Blue);
+  padding: .5em 1em;  
+  border-radius: .5em;
+  display: flex;
+  gap: 2em;
+}
+.input-holder{
+  background-color: inherit;
+  font-size: 2em;
+  outline: none;
+  border: none;
+  flex: 1;
+  color: var(--Light-Grayish-Blue);
+}
+
+
+.bottom-bar{
+  display: flex;
+  gap: 2em;
+  font-size: 1em;
+  align-items:baseline;
+}
+
+.btn{
+  font-size: 1.2em;
+  color: rgba(9, 9, 9, 0.637);
+  font-weight: 700;
+}
+
+.task-div{
+  display: flex;
+  align-items: center;
+  gap : 2em;
+  border-bottom: .02em var(--Dark-Grayish-Blue) solid;
+  padding: .5em;
+  margin-bottom: .5em;
+}
+
+.task-container{
+  background-color: var(--Very-Dark-Grayish-Blue);
+  padding: .5em 1em;
+  border-radius: .5em;
+  margin: 2em auto;
+  display: none;
+}
+
+.task{
+  flex: 1;
+  font-size: 2em;
+  color: var(--Light-Grayish-Blue);
+}
+
+.items{
+  color: var(--Dark-Grayish-Blue);
+}
+
+.task-completed p{
+  text-decoration: line-through;
+}
+
+.btns{
+  flex: 1;
+  display: flex;
+  justify-content: center;
+  gap: 2em;
+}
