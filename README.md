@@ -1,11 +1,22 @@
-# Roadmap.sh Project Portfolio
+# 🌐 Project Dashboard
 
-This repository contains a collection of projects completed while following [roadmap.sh](https://roadmap.sh) to learn various development skills. Each project includes a description, skills learned, and links to code or live demos.
+A macOS-inspired interactive dashboard that showcases a collection of frontend projects built using HTML, CSS, JavaScript, and APIs. The dashboard allows live previewing of each project in an iframe window, filtering by tech stack, searching, sorting, dark mode toggling, viewing GitHub repo links, and basic analytics via charts.
 
-## Projects
+### 🔗 [Live Demo](https://ngobe-thabane.github.io/Roadmap.sh-Projects/)
 
-| Project Name       | Roadmap Link                                  | Live Demo                         | Repo/Folder |
-|--------------------|-----------------------------------------------|-----------------------------------|-------------|
-| Single Page CV     | [Frontend Roadmap](https://roadmap.sh/projects/single-page-cv) | [Live](https://ngobe-thabane.github.io/Roadmap.sh-Projects/SinglePageCV/) | [Single-Page CV](./SinglePageCV) |
-| Dictionary App     | Frontend                   |[Live](https://ngobe-thabane.github.io/Roadmap.sh-Projects/DictionaryApp) |[DictionaryApp](./DictinaryApp/)|
-| Digital Clock | [Frontend Roadmap](https://roadmap.sh/full-stack) | [Live](https://ngobe-thabane.github.io/Roadmap.sh-Projects/DigitalClock) |[Digital Clock](./DigitalClock/)|
+---
+
+## 🚀 Features
+
+- 🎨 **Clean UI** — MacOS-style floating windows and dock
+- 🖼️ **Live Preview** — Projects open in styled iframe "app windows"
+- 🪟 **Window Controls** — Close, minimize, maximize, and restore
+- 🔗 **GitHub Repo** — Each project window has a docked link
+- 🔍 **Search & Filter** — Filter projects by tech stack or name
+- ⬆️ **Sort** — Sort A–Z / Z–A
+- 🌙 **Dark Mode** — One-click toggle for dark/light themes
+- ⚓ **Floating Dock** — Minimized windows docked Mac-style
+- ✨ **Smooth Transitions** — Fade-in/fade-out animations
+- 🧩 **Modular Codebase** — Uses ES modules for better structure
+
+

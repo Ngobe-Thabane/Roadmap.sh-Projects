@@ -7,7 +7,6 @@ const source = document.getElementById("projects-template").innerHTML;
 const template = Handlebars.compile(source);
 const searchInput = document.getElementById("searchInput");
 const sortSelect = document.getElementById("sortSelect");
-const techFilter = document.getElementById("techFilter");
 const dock = document.getElementById("dock");
 
 let currentURL = "";
