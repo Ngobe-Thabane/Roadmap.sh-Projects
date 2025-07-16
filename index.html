@@ -1,62 +1,109 @@
-<!doctype html>
-<html lang="en">
+<!DOCTYPE html>
+<html lang="en" class="dark">
 <head>
-  <meta charset="utf-8" />
+  <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>project dashboard</title>
+  <title>MacOS-style Project Dashboard</title>
   <script src="https://cdn.tailwindcss.com"></script>
+  <script>
+    tailwind.config = {
+      darkMode: 'class'
+    };
+  </script>
   <style>
     .window-controls div {
       height: 12px;
       width: 12px;
       border-radius: 9999px;
     }
+
+    .mac-window {
+      border-radius: 12px;
+      transition: all 0.4s ease;
+    }
+
+    #windowContainer {
+      transition: all 0.4s ease;
+    }
+
+    .dock {
+      bottom: 1rem;
+      left: 50%;
+      transform: translateX(-50%);
+    }
+
+    .dock-icon {
+      transition: transform 0.2s;
+    }
+
+    .dock-icon:hover {
+      transform: scale(1.1);
+    }
   </style>
 </head>
-<body class="flex h-screen font-sans bg-gray-100 text-gray-800">
-  <!-- sidebar -->
-  <aside class="w-64 bg-gray-900 text-white p-6">
-    <h2 class="text-2xl font-semibold mb-6">my projects</h2>
-    <ul class="space-y-4">
-      <li class="hover:underline cursor-pointer">all projects</li>
-      <li class="hover:underline cursor-pointer">html & css</li>
-      <li class="hover:underline cursor-pointer">javascript</li>
-      <li class="hover:underline cursor-pointer">frontend tools</li>
-    </ul>
-  </aside>
-  <main class="flex-1 p-10 overflow-y-auto">
-    <h1 class="text-3xl font-bold mb-8">dashboard</h1>
-    <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6" id="projects"></div>
-    <div id="windowContainer" class="fixed top-10 left-10 w-[80vw] h-[70vh] hidden flex flex-col rounded-lg shadow-2xl border border-gray-300 bg-white">
-      <div class="bg-gray-200 p-2 flex items-center justify-between">
-        <div class="flex space-x-2 window-controls">
-          <div onclick="closeWindow()" class="bg-red-500 cursor-pointer"></div>
-          <div onclick="minimizeWindow()" class="bg-yellow-500 cursor-pointer"></div>
-          <div onclick="maximizeWindow()" class="bg-green-500 cursor-pointer"></div>
+<body class="bg-gray-100 dark:bg-gray-900 text-gray-800 dark:text-white font-sans">
+
+  <!-- Sidebar -->
+  <nav class="bg-gray-900/2 text-black dark:text-white px-6 py-3 flex justify-between items-center">
+    <h2 class="text-2xl font-semibold">My Projects</h2>
+    <button onclick="toggleDarkMode()" class="bg-gray-700 hover:bg-gray-600 px-3 py-2 rounded text-sm">
+      Toggle Dark Mode
+    </button>
+  </nav>
+
+  <!-- Main Dashboard (Mac-style Window) -->
+  <main class="flex-1 p-6">
+    <div class="bg-white dark:bg-gray-800 mac-window shadow-xl p-6 rounded-xl border dark:border-gray-700">
+      <div class="flex justify-between items-center mb-6">
+        <h1 class="text-3xl font-bold">Project Dashboard</h1>
+        <div class="flex space-x-4">
+          <input id="searchInput" type="text" placeholder="Search projects..." class="px-4 py-2 rounded border border-gray-300 w-48 dark:bg-gray-700 dark:border-gray-600" />
+          <select id="sortSelect" class="px-4 py-2 rounded border border-gray-300 dark:bg-gray-700 dark:border-gray-600">
+            <option value="asc">Sort: A–Z</option>
+            <option value="desc">Sort: Z–A</option>
+          </select>
         </div>
       </div>
-      <iframe id="projectFrame" src="" class="flex-1 w-full h-full border-none"></iframe>
+
+      <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6" id="projects"></div>
     </div>
   </main>
+
+  <!-- Project Window -->
+  <div id="windowContainer" class="fixed top-10 left-10 w-[80vw] h-[70vh] hidden flex flex-col rounded-xl shadow-2xl border border-gray-300 bg-white dark:bg-gray-800 z-100 mac-window">
+    <div class="bg-gray-200 dark:bg-gray-700 p-2 flex items-center justify-between rounded-tr-xl rounded-tl-xl">
+      <div class="flex space-x-2 window-controls pl-2 rounded-full">
+        <div onclick="closeWindow()" class="bg-red-500 cursor-pointer"></div>
+        <div onclick="maximizeWindow()" class="bg-green-500 cursor-pointer"></div>
+        <div onclick="minimizeWindow()" class="bg-yellow-500 cursor-pointer"></div>
+      </div>
+      
+    </div>
+    <iframe id="projectFrame" src="" class="flex-1 w-full h-full border-none rounded-b-xl"></iframe>
+  </div>
+
+  <!-- Floating Dock -->
+  <div id="dock" class="fixed dock z-40 flex space-x-3 bg-white dark:bg-gray-700 p-3 rounded-full shadow-xl hidden">
+    <button onclick="restoreWindow()" class="dock-icon bg-blue-600 hover:bg-blue-700 text-white px-3 py-1 rounded-full text-sm">
+      Restore App
+    </button>
+  </div>
+
   <script src="https://cdn.jsdelivr.net/npm/handlebars@latest/dist/handlebars.js"></script>
-  <script src="./script.js" type="module" ></script>
+  <script type="module" src="./script.js"></script>
+
   <script id="projects-template" type="text/x-handlebars-template">
-      {{#each projects}}
-        <div class="flex flex-col gap-4 bg-white rounded-xl shadow-lg p-4">
-          <h3 class="text-lg font-semibold mb-2">{{this.projectName}}</h3>
-          <div class="flex gap-0">
-              {{#each this.techStack}}
-                <p class="border border-green-100 text-xs font-medium mr-2 px-2.5 py-0.5 rounded">{{this}}</p>
-              {{/each}}
-            </div>
-    
-            <button 
-            onclick="openWindow('{{this.url}}')" 
-            class="bg-blue-600 hover:bg-blue-700 text-white px-4 py-1 rounded">
-            view project
-          </button>
+    {{#each projects}}
+      <div class="flex flex-col gap-4 bg-white dark:bg-gray-700 rounded-xl shadow-md p-4" onclick="openWindow('{{this.url}}')" style="cursor: pointer;">
+        <h3 class="text-lg font-semibold">{{this.projectName}}</h3>
+        <div class="flex flex-wrap gap-2">
+          {{#each this.techStack}}
+            <span class="bg-green-100 text-green-800 dark:bg-green-800 dark:text-white text-xs font-medium px-2.5 py-0.5 rounded">{{this}}</span>
+          {{/each}}
         </div>
-      {{/each}}
+      </div>
+    {{/each}}
   </script>
+
 </body>
 </html>
