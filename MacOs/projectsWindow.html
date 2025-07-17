@@ -5,6 +5,8 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>MacOS-style Project Dashboard</title>
   <script src="https://cdn.tailwindcss.com"></script>
+  <script src="https://cdn.jsdelivr.net/npm/handlebars@latest/dist/handlebars.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/interact.js/1.10.11/interact.min.js"></script>
   <script>
     tailwind.config = {
       darkMode: 'class'
@@ -15,6 +17,10 @@
       height: 12px;
       width: 12px;
       border-radius: 9999px;
+    }
+    
+    .projectFrame {
+      transition: all 0.3s ease;
     }
 
     .mac-window {
@@ -43,33 +49,12 @@
 </head>
 <body class="bg-gray-100 dark:bg-gray-900 text-gray-800 dark:text-white font-sans">
 
-  <!-- Sidebar -->
-  <nav class="bg-gray-900/2 text-black dark:text-white px-6 py-3 flex justify-between items-center">
-    <h2 class="text-2xl font-semibold">My Projects</h2>
-    <button onclick="toggleDarkMode()" class="bg-gray-700 hover:bg-gray-600 px-3 py-2 rounded text-sm">
-      Toggle Dark Mode
-    </button>
-  </nav>
-
-  <!-- Main Dashboard (Mac-style Window) -->
   <main class="flex-1 p-6">
     <div class="bg-white dark:bg-gray-800 mac-window shadow-xl p-6 rounded-xl border dark:border-gray-700">
-      <div class="flex justify-between items-center mb-6">
-        <h1 class="text-3xl font-bold">Project Dashboard</h1>
-        <div class="flex space-x-4">
-          <input id="searchInput" type="text" placeholder="Search projects..." class="px-4 py-2 rounded border border-gray-300 w-48 dark:bg-gray-700 dark:border-gray-600" />
-          <select id="sortSelect" class="px-4 py-2 rounded border border-gray-300 dark:bg-gray-700 dark:border-gray-600">
-            <option value="asc">Sort: A–Z</option>
-            <option value="desc">Sort: Z–A</option>
-          </select>
-        </div>
-      </div>
-
       <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6" id="projects"></div>
     </div>
   </main>
 
-  <!-- Project Window -->
   <div id="windowContainer" class="fixed top-10 left-10 w-[80vw] h-[70vh] hidden flex flex-col rounded-xl shadow-2xl border border-gray-300 bg-white dark:bg-gray-800 z-100 mac-window">
     <div class="bg-gray-200 dark:bg-gray-700 p-2 flex items-center justify-between rounded-tr-xl rounded-tl-xl">
       <div class="flex space-x-2 window-controls pl-2 rounded-full">
@@ -79,18 +64,16 @@
       </div>
       
     </div>
-    <iframe id="projectFrame" src="" class="flex-1 w-full h-full border-none rounded-b-xl"></iframe>
+    <iframe id="projectFrame" src="" class="projectFrame flex-1 w-full h-full border-none rounded-b-xl"></iframe>
   </div>
 
-  <!-- Floating Dock -->
   <div id="dock" class="fixed dock z-40 flex space-x-3 bg-white dark:bg-gray-700 p-3 rounded-full shadow-xl hidden">
     <button onclick="restoreWindow()" class="dock-icon bg-blue-600 hover:bg-blue-700 text-white px-3 py-1 rounded-full text-sm">
       Restore App
     </button>
   </div>
 
-  <script src="https://cdn.jsdelivr.net/npm/handlebars@latest/dist/handlebars.js"></script>
-  <script type="module" src="./Js/script.js"></script>
+  <script type="module" src="./script.js"></script>
 
   <script id="projects-template" type="text/x-handlebars-template">
     {{#each projects}}

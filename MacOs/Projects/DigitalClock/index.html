@@ -1,0 +1,44 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <link rel="stylesheet" href="style.css">
+  <title>User TimeZone</title>
+</head>
+<body>
+  <div class="time-container">
+    <div>
+      <div id="timezone">
+        <p id="time-paragraph"></p>
+        <button data-micromodal-trigger="change-timezone">
+
+        <img width="24" height="24" src="https://img.icons8.com/external-anggara-basic-outline-anggara-putra/24/external-time-zone-time-and-date-anggara-basic-outline-anggara-putra.png" alt="external-time-zone-time-and-date-anggara-basic-outline-anggara-putra" id="timezone-icon" />
+
+        </button>
+      </div>
+      <p id="time"></p>
+      <p id="date"></p>
+    </div>
+  </div>
+
+  <div id="change-timezone" class="timezone-modal" aria-hidden="true">
+    <div class="timezone-modal-content" tabindex="-1" data-micromodal-close>
+      <div role="dialog" aria-labelledby="modal-1-title" aria-modal="true" class="content">
+        <header>
+          <h1 id="modal-1-title">Change Timezone</h1>
+        </header>
+        <div id="modal-1-content" class="modal-content">
+        <select name="timezones" id="timezones" aria-placeholder="Pick a timezone">
+
+        </select>
+        <button class="" aria-label="Close modal" data-micromodal-close id="apply">Apply</button>
+      </div>
+      </div>
+    </div>
+
+  </div>
+
+  <script src="./script.js" type="module"></script>
+</body>
+</html>
