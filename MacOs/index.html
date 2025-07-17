@@ -20,6 +20,15 @@
       background: url('https://wallpapers.com/images/hd/website-tracker-map-hacker-18wstdrojes3g884.webp') no-repeat center center / cover;
       opacity: .4;
     }
+    .finder-window.fullscreen {
+      top: 2rem !important; /* Just below the top bar */
+      left: 0 !important;
+      right: 0;
+      width: 100vw;
+      height: calc(100vh - 6rem); /* Avoids top bar (2rem) and dock (~4rem) */
+      margin: 0 auto;
+      border-radius: 0.75rem;
+    }
     @keyframes fadeInUp {
       0% { opacity: 0; transform: translateY(20px); }
       100% { opacity: 1; transform: translateY(0); }
@@ -48,20 +57,79 @@
       <button id="darkToggle" class="text-white text-xs bg-white/10 hover:bg-white/20 px-2 py-0.5 rounded transition duration-200">🌗</button>
     </div>
   </div>
-<!-- Desktop Folders -->
-  <div class="fixed left-4 top-20 flex flex-col space-y-4 z-30">
-    <!-- Projects Folder -->
-    <div class="flex flex-col items-center space-y-1 hover:scale-105 transition cursor-pointer">
-      <img src="https://img.icons8.com/ios-filled/50/ffffff/folder-invoices--v2.png" class="w-10 h-10" alt="Projects Folder" />
-      <span class="text-xs text-white text-center">Projects</span>
-    </div>
-
-    <!-- Portfolio Folder -->
-    <div class="flex flex-col items-center space-y-1 hover:scale-105 transition cursor-pointer">
-      <img src="https://img.icons8.com/ios-filled/50/ffffff/folder-invoices--v2.png" class="w-10 h-10" alt="Portfolio Folder" />
-      <span class="text-xs text-white text-center">Portfolio</span>
-    </div>
+  <!-- Desktop Folders -->
+   <div class="fixed left-4 top-20 flex flex-col space-y-6 z-30">
+  <!-- Projects Folder -->
+  <div onclick="openFinder('projects')" class="flex flex-col items-center space-y-1 hover:scale-105 transition cursor-pointer">
+    <img src="https://img.icons8.com/ios-filled/50/ffffff/folder-invoices--v1.png" class="w-10 h-10" alt="Projects Folder" />
+    <span class="text-xs text-white text-center">Projects</span>
   </div>
+
+  <!-- Portfolio Folder -->
+  <div onclick="openFinder('portfolio')" class="flex flex-col items-center space-y-1 hover:scale-105 transition cursor-pointer">
+    <img src="https://img.icons8.com/ios-filled/50/ffffff/folder.png" class="w-10 h-10" alt="Portfolio Folder" />
+    <span class="text-xs text-white text-center">Portfolio</span>
+  </div>
+</div>
+<div class="fixed left-4 top-20 flex flex-col space-y-6 z-30">
+<!-- Projects Finder -->
+<div id="projects-finder" class="finder-window hidden fixed left-1/4 top-12 w-[600px] h-[400px] z-40">
+  <div class="window-header flex items-center justify-between px-3 h-8 bg-white/30 dark:bg-white/10 border-b border-white/20 rounded-t-xl backdrop-blur-md cursor-move">
+    <div class="flex items-center space-x-2">
+      <span onclick="closeFinder('projects')" class="w-3 h-3 rounded-full bg-red-500 cursor-pointer"></span>
+      <span class="w-3 h-3 rounded-full bg-yellow-500"></span>
+      <span onclick="toggleFullscreen('projects-finder')" class="w-3 h-3 rounded-full bg-green-500 cursor-pointer"></span>
+    </div>
+    <span class="text-xs text-gray-700 dark:text-gray-300 font-medium">Projects</span>
+    <span></span>
+  </div>
+  <iframe src="./projectsWindow.html" class="w-full h-[calc(100%-2rem)] border-0 rounded-b-xl"></iframe>
+</div>
+
+<!-- Portfolio Finder -->
+<div id="portfolio-finder" class="finder-window hidden fixed left-1/3 top-16 w-[600px] h-[400px] z-40">
+  <div class="window-header flex items-center justify-between px-3 h-8 bg-white/30 dark:bg-white/10 border-b border-white/20 rounded-t-xl backdrop-blur-md cursor-move">
+    <div class="flex items-center space-x-2">
+      <span onclick="closeFinder('portfolio')" class="w-3 h-3 rounded-full bg-red-500 cursor-pointer"></span>
+      <span class="w-3 h-3 rounded-full bg-yellow-500"></span>
+      <span onclick="toggleFullscreen('portfolio-finder')" class="w-3 h-3 rounded-full bg-green-500 cursor-pointer"></span>
+    </div>
+    <span class="text-xs text-gray-700 dark:text-gray-300 font-medium">Portfolio</span>
+    <span></span>
+  </div>
+  <iframe src="https://example.com/portfolio" class="w-full h-[calc(100%-2rem)] border-0 rounded-b-xl"></iframe>
+</div>
+</div>
+
+  <!-- Finder Windows -->
+  <div id="projects-finder" class="hidden fixed top-24 left-1/4 w-[600px] h-[400px] bg-white/30 dark:bg-white/10 backdrop-blur-lg border border-white/30 rounded-xl shadow-2xl z-50">
+    <!-- Title Bar -->
+    <div class="flex items-center justify-between px-3 h-8 bg-white/20 dark:bg-white/10 border-b border-white/20 cursor-move">
+      <div class="flex items-center space-x-2">
+        <span onclick="closeFinder('projects')" class="w-3 h-3 rounded-full bg-red-500 cursor-pointer"></span>
+        <span class="w-3 h-3 rounded-full bg-yellow-500"></span>
+        <span class="w-3 h-3 rounded-full bg-green-500"></span>
+      </div>
+      <span class="text-xs text-gray-700 dark:text-gray-300 font-medium">Projects</span>
+      <span></span>
+    </div>
+    <!-- Iframe Content -->
+    <iframe src="./projectsWindow.html" class="w-full h-[calc(100%-2rem)] border-0 rounded-b-xl"></iframe>
+  </div>
+
+  <div id="portfolio-finder" class="hidden fixed top-28 left-1/3 w-[600px] h-[400px] bg-white/30 dark:bg-white/10 backdrop-blur-lg border border-white/30 rounded-xl shadow-2xl z-50">
+    <div class="flex items-center justify-between px-3 h-8 bg-white/20 dark:bg-white/10 border-b border-white/20 cursor-move">
+      <div class="flex items-center space-x-2">
+        <span onclick="closeFinder('portfolio')" class="w-3 h-3 rounded-full bg-red-500 cursor-pointer"></span>
+        <span class="w-3 h-3 rounded-full bg-yellow-500"></span>
+        <span class="w-3 h-3 rounded-full bg-green-500"></span>
+      </div>
+      <span class="text-xs text-gray-700 dark:text-gray-300 font-medium">Portfolio</span>
+      <span></span>
+    </div>
+    <iframe src="https://example.com/portfolio" class="w-[100vw] h-[calc(100%-2rem)] border-0 rounded-b-xl"></iframe>
+  </div>
+
     <!-- Dock -->
     <div class="fixed bottom-3 left-1/2 transform -translate-x-1/2 z-50">
       <div class="backdrop-blur-md bg-white/30 dark:bg-white/10 px-4 py-2 rounded-2xl border border-white/30 shadow-xl flex space-x-4">
@@ -114,6 +182,46 @@
     }
     function closeModal(id) {
       document.getElementById(id).classList.add('hidden');
+    }
+    function openFinder(name) {
+      const el = document.getElementById(`${name}-finder`);
+      el.classList.remove("hidden");
+      el.style.zIndex = 1000;
+    }
+
+    function closeFinder(name) {
+      const el = document.getElementById(`${name}-finder`);
+      el.classList.add("hidden");
+      el.classList.remove("fullscreen");
+    }
+
+    // Make draggable
+    document.querySelectorAll('.finder-window').forEach(win => {
+      const header = win.querySelector('.window-header');
+      let isDragging = false, offsetX = 0, offsetY = 0;
+
+      header.addEventListener('mousedown', (e) => {
+        isDragging = true;
+        offsetX = e.clientX - win.offsetLeft;
+        offsetY = e.clientY - win.offsetTop;
+        win.style.zIndex = 1000;
+      });
+
+      document.addEventListener('mousemove', (e) => {
+        if (!isDragging) return;
+        win.style.left = `${Math.round((e.clientX - offsetX) / 20) * 20}px`;
+        win.style.top = `${Math.round((e.clientY - offsetY) / 20) * 20}px`;
+      });
+
+      document.addEventListener('mouseup', () => {
+        isDragging = false;
+      });
+    });
+
+    // Toggle fullscreen (snap window without covering top bar and dock)
+    function toggleFullscreen(id) {
+      const win = document.getElementById(id);
+      win.classList.toggle("fullscreen");
     }
 
     interact('.modal').draggable({
