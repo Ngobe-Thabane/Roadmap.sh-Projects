@@ -1,0 +1,134 @@
+<!DOCTYPE html>
+<html lang="en" class="dark">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>macOS 26 Homepage</title>
+  <script src="https://cdn.tailwindcss.com"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/interact.js/1.10.11/interact.min.js"></script>
+  <script>
+    tailwind.config = {
+      darkMode: 'class',
+    };
+  </script>
+  <style>
+    body::before {
+      content: "";
+      position: fixed;
+      inset: 0;
+      z-index: -1;
+      background: url('https://wallpapers.com/images/hd/website-tracker-map-hacker-18wstdrojes3g884.webp') no-repeat center center / cover;
+      opacity: .4;
+    }
+    @keyframes fadeInUp {
+      0% { opacity: 0; transform: translateY(20px); }
+      100% { opacity: 1; transform: translateY(0); }
+    }
+    .fade-in {
+      animation: fadeInUp 0.6s ease-out both;
+    }
+    .modal {
+      transition: all 0.3s ease;
+    }
+  </style>
+</head>
+<body class="dark:bg-gray-900 bg-gray-700 text-gray-900/50 dark:text-white font-sans transition duration-300 dark:opacity-[4]" style="font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen;">
+
+  <!-- Top Bar -->
+  <div class="fixed top-0 left-0 w-full h-8 bg-black/50 backdrop-blur-sm text-white flex items-center justify-between px-4 text-sm z-50">
+    <div class="flex items-center space-x-4">
+      <span class="hidden sm:inline">User</span>
+    </div>
+    <div class="flex-1 px-4 max-w-md">
+      <input type="text" placeholder="Search..." class="w-full bg-white/10 text-white placeholder-gray-300 text-xs rounded px-2 py-1 outline-none focus:ring-1 focus:ring-white backdrop-blur-sm" />
+    </div>
+    <div class="flex items-center space-x-4">
+      <div id="weather" class="flex items-center space-x-1 text-xs text-gray-100"><span>Loading...</span></div>
+      <div id="datetime" class="whitespace-nowrap text-xs"></div>
+      <button id="darkToggle" class="text-white text-xs bg-white/10 hover:bg-white/20 px-2 py-0.5 rounded transition duration-200">🌗</button>
+    </div>
+  </div>
+<!-- Desktop Folders -->
+<div class="fixed left-4 top-20 flex flex-col space-y-4 z-30">
+  <!-- Projects Folder -->
+  <div class="flex flex-col items-center space-y-1 hover:scale-105 transition cursor-pointer">
+    <img src="https://img.icons8.com/ios-filled/50/ffffff/folder-invoices--v2.png" class="w-10 h-10" alt="Projects Folder" />
+    <span class="text-xs text-white text-center">Projects</span>
+  </div>
+
+  <!-- Portfolio Folder -->
+  <div class="flex flex-col items-center space-y-1 hover:scale-105 transition cursor-pointer">
+    <img src="https://img.icons8.com/ios-filled/50/ffffff/folder-invoices--v2.png" class="w-10 h-10" alt="Portfolio Folder" />
+    <span class="text-xs text-white text-center">Portfolio</span>
+  </div>
+</div>
+  <!-- Dock -->
+  <div class="fixed bottom-3 left-1/2 transform -translate-x-1/2 z-50">
+    <div class="backdrop-blur-md bg-white/30 dark:bg-white/10 px-4 py-2 rounded-2xl border border-white/30 shadow-xl flex space-x-4">
+      <div class="group flex flex-col items-center space-y-1 hover:scale-110 transition">
+        <img src="https://img.icons8.com/ios-filled/50/000000/safari.png" class="w-8 h-8" alt="Safari"/>
+      </div>
+      <div class="group flex flex-col items-center space-y-1 hover:scale-110 transition">
+        <img src="https://img.icons8.com/ios-filled/50/000000/apple-mail.png" class="w-8 h-8" alt="Mail"/>
+      </div>
+      <div class="group flex flex-col items-center space-y-1 hover:scale-110 transition">
+        <img src="https://img.icons8.com/ios-filled/50/000000/settings.png" class="w-8 h-8" alt="Settings"/>
+      </div>
+</div>
+
+  <!-- Scripts -->
+  <script>
+    function updateDateTime() {
+      const el = document.getElementById("datetime");
+      const now = new Date();
+      const time = now.toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' });
+      el.textContent = `${time}`;
+    }
+    updateDateTime();
+    setInterval(updateDateTime, 1000);
+
+    async function fetchWeather() {
+      const apiKey = "YOUR_API_KEY";
+      const city = "New York";
+      const units = "metric";
+      try {
+        const res = await fetch(`https://api.openweathermap.org/data/2.5/weather?q=${city}&units=${units}&appid=${apiKey}`);
+        const data = await res.json();
+        const temp = Math.round(data.main.temp);
+        const iconUrl = `https://openweathermap.org/img/wn/${data.weather[0].icon}.png`;
+        document.getElementById("weather").innerHTML = `<img src="${iconUrl}" class="w-4 h-4" alt="Weather"><span>${temp}°C</span>`;
+      } catch (error) {
+        document.getElementById("weather").textContent = "Weather unavailable";
+      }
+    }
+    fetchWeather();
+
+    const toggle = document.getElementById('darkToggle');
+    toggle.addEventListener('click', () => {
+      document.documentElement.classList.toggle('dark');
+    });
+
+    function openModal(id, e) {
+      if (e) e.stopPropagation();
+      document.getElementById(id).classList.remove('hidden');
+    }
+    function closeModal(id) {
+      document.getElementById(id).classList.add('hidden');
+    }
+
+    interact('.modal').draggable({
+      allowFrom: '.cursor-move',
+      listeners: {
+        move (event) {
+          const target = event.target
+          const x = (parseFloat(target.getAttribute('data-x')) || 0) + event.dx
+          const y = (parseFloat(target.getAttribute('data-y')) || 0) + event.dy
+          target.style.transform = `translate(${x}px, ${y}px)`
+          target.setAttribute('data-x', x)
+          target.setAttribute('data-y', y)
+        }
+      }
+    });
+  </script>
+</body>
+</html>
