@@ -3,108 +3,238 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>MacOS-style Project Dashboard</title>
+  <title>macOS 26 Homepage</title>
   <script src="https://cdn.tailwindcss.com"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/interact.js/1.10.11/interact.min.js"></script>
   <script>
     tailwind.config = {
-      darkMode: 'class'
+      darkMode: 'class',
     };
   </script>
   <style>
-    .window-controls div {
-      height: 12px;
-      width: 12px;
-      border-radius: 9999px;
+    body::before {
+      content: "";
+      position: fixed;
+      inset: 0;
+      z-index: -1;
+      background: url('https://wallpapers.com/images/hd/website-tracker-map-hacker-18wstdrojes3g884.webp') no-repeat center center / cover;
+      opacity: .4;
     }
-
-    .mac-window {
-      border-radius: 12px;
-      transition: all 0.4s ease;
+    .finder-window.fullscreen {
+      top: 2rem !important; /* Just below the top bar */
+      left: 0 !important;
+      right: 0;
+      width: 100vw;
+      height: calc(100vh - 6rem); /* Avoids top bar (2rem) and dock (~4rem) */
+      margin: 0 auto;
+      border-radius: 0.75rem;
     }
-
-    #windowContainer {
-      transition: all 0.4s ease;
+    @keyframes fadeInUp {
+      0% { opacity: 0; transform: translateY(20px); }
+      100% { opacity: 1; transform: translateY(0); }
     }
-
-    .dock {
-      bottom: 1rem;
-      left: 50%;
-      transform: translateX(-50%);
+    .fade-in {
+      animation: fadeInUp 0.6s ease-out both;
     }
-
-    .dock-icon {
-      transition: transform 0.2s;
-    }
-
-    .dock-icon:hover {
-      transform: scale(1.1);
+    .modal {
+      transition: all 0.3s ease;
     }
   </style>
 </head>
-<body class="bg-gray-100 dark:bg-gray-900 text-gray-800 dark:text-white font-sans">
+<body class="dark:bg-gray-900 bg-gray-700 text-gray-900/50 dark:text-white font-sans transition duration-300 dark:opacity-[4]" style="font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen;">
 
-  <!-- Sidebar -->
-  <nav class="bg-gray-900/2 text-black dark:text-white px-6 py-3 flex justify-between items-center">
-    <h2 class="text-2xl font-semibold">My Projects</h2>
-    <button onclick="toggleDarkMode()" class="bg-gray-700 hover:bg-gray-600 px-3 py-2 rounded text-sm">
-      Toggle Dark Mode
-    </button>
-  </nav>
-
-  <!-- Main Dashboard (Mac-style Window) -->
-  <main class="flex-1 p-6">
-    <div class="bg-white dark:bg-gray-800 mac-window shadow-xl p-6 rounded-xl border dark:border-gray-700">
-      <div class="flex justify-between items-center mb-6">
-        <h1 class="text-3xl font-bold">Project Dashboard</h1>
-        <div class="flex space-x-4">
-          <input id="searchInput" type="text" placeholder="Search projects..." class="px-4 py-2 rounded border border-gray-300 w-48 dark:bg-gray-700 dark:border-gray-600" />
-          <select id="sortSelect" class="px-4 py-2 rounded border border-gray-300 dark:bg-gray-700 dark:border-gray-600">
-            <option value="asc">Sort: A–Z</option>
-            <option value="desc">Sort: Z–A</option>
-          </select>
-        </div>
-      </div>
-
-      <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6" id="projects"></div>
+  <!-- Top Bar -->
+  <div class="fixed top-0 left-0 w-full h-8 bg-black/50 backdrop-blur-sm text-white flex items-center justify-between px-4 text-sm z-50">
+    <div class="flex items-center space-x-4">
+      <span class="hidden sm:inline">Tman</span>
     </div>
-  </main>
 
-  <!-- Project Window -->
-  <div id="windowContainer" class="fixed top-10 left-10 w-[80vw] h-[70vh] hidden flex flex-col rounded-xl shadow-2xl border border-gray-300 bg-white dark:bg-gray-800 z-100 mac-window">
-    <div class="bg-gray-200 dark:bg-gray-700 p-2 flex items-center justify-between rounded-tr-xl rounded-tl-xl">
-      <div class="flex space-x-2 window-controls pl-2 rounded-full">
-        <div onclick="closeWindow()" class="bg-red-500 cursor-pointer"></div>
-        <div onclick="minimizeWindow()" class="bg-yellow-500 cursor-pointer"></div>
-        <div onclick="maximizeWindow()" class="bg-green-500 cursor-pointer"></div>
-      </div>
-      
+    <div class="flex items-center space-x-4">
+      <div id="weather" class="flex items-center space-x-1 text-xs text-gray-100"><span>Loading...</span></div>
+      <div id="datetime" class="whitespace-nowrap text-xs"></div>
+      <button id="darkToggle" class="text-white text-xs bg-white/10 hover:bg-white/20 px-2 py-0.5 rounded transition duration-200">🌗</button>
     </div>
-    <iframe id="projectFrame" src="" class="flex-1 w-full h-full border-none rounded-b-xl"></iframe>
+  </div>
+  <!-- Desktop Folders -->
+   <div class="fixed left-4 top-20 flex flex-col space-y-6 z-30">
+  <!-- Projects Folder -->
+  <div onclick="openFinder('projects')" class="flex flex-col items-center space-y-1 hover:scale-105 transition cursor-pointer">
+    <img src="https://img.icons8.com/ios-filled/50/ffffff/folder-invoices--v1.png" class="w-10 h-10" alt="Projects Folder" />
+    <span class="text-xs text-white text-center">Projects</span>
   </div>
 
-  <!-- Floating Dock -->
-  <div id="dock" class="fixed dock z-40 flex space-x-3 bg-white dark:bg-gray-700 p-3 rounded-full shadow-xl hidden">
-    <button onclick="restoreWindow()" class="dock-icon bg-blue-600 hover:bg-blue-700 text-white px-3 py-1 rounded-full text-sm">
-      Restore App
-    </button>
+  <!-- Portfolio Folder -->
+  <div onclick="openFinder('portfolio')" class="flex flex-col items-center space-y-1 hover:scale-105 transition cursor-pointer">
+    <img src="https://img.icons8.com/ios-filled/50/ffffff/folder-invoices--v3.png" class="w-10 h-10" alt="Portfolio Folder" />
+    <span class="text-xs text-white text-center">Thabane Ngobe</span>
+  </div>
+</div>
+<div class="fixed left-4 top-20 flex flex-col space-y-6 z-30">
+<!-- Projects Finder -->
+<div id="projects-finder" class="finder-window hidden fixed left-1/4 top-12 w-[600px] h-[400px] z-40">
+  <div class="window-header flex items-center justify-between px-3 h-8 bg-white/30 dark:bg-white/10 border-b border-white/20 rounded-t-xl backdrop-blur-md cursor-move">
+    <div class="flex items-center space-x-2">
+      <span onclick="closeFinder('projects')" class="w-3 h-3 rounded-full bg-red-500 cursor-pointer"></span>
+      <span class="w-3 h-3 rounded-full bg-yellow-500"></span>
+      <span onclick="toggleFullscreen('projects-finder')" class="w-3 h-3 rounded-full bg-green-500 cursor-pointer"></span>
+    </div>
+    <span class="text-xs text-gray-700 dark:text-gray-300 font-medium">Projects</span>
+    <span></span>
+  </div>
+  <iframe src="./projectsWindow.html" class="w-full h-[calc(100%-2rem)] border-0 rounded-b-xl"></iframe>
+</div>
+
+<!-- Portfolio Finder -->
+<div id="portfolio-finder" class="finder-window hidden fixed left-1/3 top-16 w-[600px] h-[400px] z-40">
+  <div class="window-header flex items-center justify-between px-3 h-8 bg-white/30 dark:bg-white/10 border-b border-white/20 rounded-t-xl backdrop-blur-md cursor-move">
+    <div class="flex items-center space-x-2">
+      <span onclick="closeFinder('portfolio')" class="w-3 h-3 rounded-full bg-red-500 cursor-pointer"></span>
+      <span class="w-3 h-3 rounded-full bg-yellow-500"></span>
+      <span onclick="toggleFullscreen('portfolio-finder')" class="w-3 h-3 rounded-full bg-green-500 cursor-pointer"></span>
+    </div>
+    <span class="text-xs text-gray-700 dark:text-gray-300 font-medium">Portfolio</span>
+    <span></span>
+  </div>
+  <iframe src="https://example.com/portfolio" class="w-full h-[calc(100%-2rem)] border-0 rounded-b-xl"></iframe>
+</div>
+</div>
+
+  <!-- Finder Windows -->
+  <div id="projects-finder" class="hidden fixed top-24 left-1/4 w-[600px] h-[400px] bg-white/30 dark:bg-white/10 backdrop-blur-lg border border-white/30 rounded-xl shadow-2xl z-50">
+    <!-- Title Bar -->
+    <div class="flex items-center justify-between px-3 h-8 bg-white/20 dark:bg-white/10 border-b border-white/20 cursor-move">
+      <div class="flex items-center space-x-2">
+        <span onclick="closeFinder('projects')" class="w-3 h-3 rounded-full bg-red-500 cursor-pointer"></span>
+        <span class="w-3 h-3 rounded-full bg-yellow-500"></span>
+        <span class="w-3 h-3 rounded-full bg-green-500"></span>
+      </div>
+      <span class="text-xs text-gray-700 dark:text-gray-300 font-medium">Projects</span>
+      <span></span>
+    </div>
+    <!-- Iframe Content -->
+    <iframe src="./projectsWindow.html" class="w-full h-[calc(100%-2rem)] border-0 rounded-b-xl"></iframe>
   </div>
 
-  <script src="https://cdn.jsdelivr.net/npm/handlebars@latest/dist/handlebars.js"></script>
-  <script type="module" src="./script.js"></script>
-
-  <script id="projects-template" type="text/x-handlebars-template">
-    {{#each projects}}
-      <div class="flex flex-col gap-4 bg-white dark:bg-gray-700 rounded-xl shadow-md p-4" onclick="openWindow('{{this.url}}')" style="cursor: pointer;">
-        <h3 class="text-lg font-semibold">{{this.projectName}}</h3>
-        <p class="text-sm text-gray-700 dark:text-white line-clamp-2">{{this.description}}</p>
-        <div class="flex flex-wrap gap-2">
-          {{#each this.techStack}}
-            <span class="bg-green-100 text-green-800 dark:bg-green-800 dark:text-white text-xs font-medium px-2.5 py-0.5 rounded">{{this}}</span>
-          {{/each}}
-        </div>
+  <div id="portfolio-finder" class="hidden fixed top-28 left-1/3 w-[600px] h-[400px] bg-white/30 dark:bg-white/10 backdrop-blur-lg border border-white/30 rounded-xl shadow-2xl z-50">
+    <div class="flex items-center justify-between px-3 h-8 bg-white/20 dark:bg-white/10 border-b border-white/20 cursor-move">
+      <div class="flex items-center space-x-2">
+        <span onclick="closeFinder('portfolio')" class="w-3 h-3 rounded-full bg-red-500 cursor-pointer"></span>
+        <span class="w-3 h-3 rounded-full bg-yellow-500"></span>
+        <span class="w-3 h-3 rounded-full bg-green-500"></span>
       </div>
-    {{/each}}
+      <span class="text-xs text-gray-700 dark:text-gray-300 font-medium">Portfolio</span>
+      <span></span>
+    </div>
+    <iframe src="https://example.com/portfolio" class="w-[100vw] h-[calc(100%-2rem)] border-0 rounded-b-xl"></iframe>
+  </div>
+
+    <!-- Dock -->
+    <div class="fixed bottom-3 left-1/2 transform -translate-x-1/2 z-50">
+      <div class="backdrop-blur-md bg-white/30 dark:bg-white/10 px-4 py-2 rounded-2xl border border-white/30 shadow-xl flex space-x-4">
+        <div class="group flex flex-col items-center space-y-1 hover:scale-110 transition">
+          <img src="https://img.icons8.com/ios-filled/50/000000/safari.png" class="w-8 h-8" alt="Safari"/>
+        </div>
+        <div class="group flex flex-col items-center space-y-1 hover:scale-110 transition">
+          <img src="https://img.icons8.com/ios-filled/50/000000/apple-mail.png" class="w-8 h-8" alt="Mail"/>
+        </div>
+        <div class="group flex flex-col items-center space-y-1 hover:scale-110 transition">
+          <img src="https://img.icons8.com/ios-filled/50/000000/settings.png" class="w-8 h-8" alt="Settings"/>
+        </div>
+  </div>
+
+  <!-- Scripts -->
+  <script>
+    function updateDateTime() {
+      const el = document.getElementById("datetime");
+      const now = new Date();
+      const time = now.toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' });
+      el.textContent = `${time}`;
+    }
+    updateDateTime();
+    setInterval(updateDateTime, 1000);
+
+    async function fetchWeather() {
+      const apiKey = "YOUR_API_KEY";
+      const city = "New York";
+      const units = "metric";
+      try {
+        const res = await fetch(`https://api.openweathermap.org/data/2.5/weather?q=${city}&units=${units}&appid=${apiKey}`);
+        const data = await res.json();
+        const temp = Math.round(data.main.temp);
+        const iconUrl = `https://openweathermap.org/img/wn/${data.weather[0].icon}.png`;
+        document.getElementById("weather").innerHTML = `<img src="${iconUrl}" class="w-4 h-4" alt="Weather"><span>${temp}°C</span>`;
+      } catch (error) {
+        document.getElementById("weather").textContent = "Weather unavailable";
+      }
+    }
+    fetchWeather();
+
+    const toggle = document.getElementById('darkToggle');
+    toggle.addEventListener('click', () => {
+      document.documentElement.classList.toggle('dark');
+    });
+
+    function openModal(id, e) {
+      if (e) e.stopPropagation();
+      document.getElementById(id).classList.remove('hidden');
+    }
+    function closeModal(id) {
+      document.getElementById(id).classList.add('hidden');
+    }
+    function openFinder(name) {
+      const el = document.getElementById(`${name}-finder`);
+      el.classList.remove("hidden");
+      el.style.zIndex = 1000;
+    }
+
+    function closeFinder(name) {
+      const el = document.getElementById(`${name}-finder`);
+      el.classList.add("hidden");
+      el.classList.remove("fullscreen");
+    }
+
+    // Make draggable
+    document.querySelectorAll('.finder-window').forEach(win => {
+      const header = win.querySelector('.window-header');
+      let isDragging = false, offsetX = 0, offsetY = 0;
+
+      header.addEventListener('mousedown', (e) => {
+        isDragging = true;
+        offsetX = e.clientX - win.offsetLeft;
+        offsetY = e.clientY - win.offsetTop;
+        win.style.zIndex = 1000;
+      });
+
+      document.addEventListener('mousemove', (e) => {
+        if (!isDragging) return;
+        win.style.left = `${Math.round((e.clientX - offsetX) / 20) * 20}px`;
+        win.style.top = `${Math.round((e.clientY - offsetY) / 20) * 20}px`;
+      });
+
+      document.addEventListener('mouseup', () => {
+        isDragging = false;
+      });
+    });
+
+    // Toggle fullscreen (snap window without covering top bar and dock)
+    function toggleFullscreen(id) {
+      const win = document.getElementById(id);
+      win.classList.toggle("fullscreen");
+    }
+
+    interact('.modal').draggable({
+      allowFrom: '.cursor-move',
+      listeners: {
+        move (event) {
+          const target = event.target
+          const x = (parseFloat(target.getAttribute('data-x')) || 0) + event.dx
+          const y = (parseFloat(target.getAttribute('data-y')) || 0) + event.dy
+          target.style.transform = `translate(${x}px, ${y}px)`
+          target.setAttribute('data-x', x)
+          target.setAttribute('data-y', y)
+        }
+      }
+    });
   </script>
-
 </body>
 </html>

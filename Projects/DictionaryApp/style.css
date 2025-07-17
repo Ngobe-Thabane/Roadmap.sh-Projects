@@ -1,0 +1,109 @@
+@import url(
+'https://fonts.googleapis.com/css2?family=Pacifico&display=swap');
+@import url(
+'https://fonts.googleapis.com/css2?family=Poppins:ital,wght@0,200;0,400;0,600;0,800;1,300&display=swap');
+
+*{
+  margin: 0;
+  padding: 0;
+}
+
+.App {
+  height: 100vh;
+  background-color: #f6f6f6;
+  background-image: linear-gradient(315deg, #f6f6f6 0%, #e9e9e9 74%);
+  font-family:'Poppins', sans-serif;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  line-height: 1.5em;
+
+}
+
+h1 {
+  text-align: center;
+  font-size: 3em;
+  font-family: 'Pacifico', cursive;
+  color: #4DB33D;
+  padding: 1em;
+}
+
+h2{
+  font-size: 30px;
+  text-decoration: underline;
+  margin: .8em 0em
+}
+
+h4, h5{
+  color: #4DB33D;
+}
+
+input{
+  width: 400px;
+  height: 38px;
+  font-size: 20px;
+  padding-left: 10px;
+}
+
+button{
+  background-color: #4DB33D;
+  border: none;
+  color: white;
+  cursor: pointer;
+  padding: 0;
+}
+
+.showResults{
+  width: 500px;
+  padding: 20px;
+}
+
+.showResults > h2 > button{
+  background: none;
+  border: none;
+  cursor: pointer;
+}
+
+.part-of-speech{
+  margin-bottom: .5em;
+  display: flex;
+  gap: .5em;
+  align-items: center;
+}
+
+select{
+  background-color: transparent;
+  border: none;
+  outline: none;
+  color: #439e34;
+  font-size: 1.5em;
+  font-weight: 600;
+}
+
+.word-search{
+  display: flex;
+  align-items: flex-end;
+}
+
+img{
+  width: 40px;
+  height: 39px;
+}
+
+.next-btn{
+  display: flex;
+  align-items: center;
+  background-color: transparent;
+  color: #439e34;
+  font-size: .9em;
+  border: 1px solid #439e34;
+  padding: .5em 1em;
+  border-radius: 1em;
+  font-weight: 800;
+}
+
+.word-definition{
+  display: flex;
+  flex-direction: column;
+  gap: 1em;
+}

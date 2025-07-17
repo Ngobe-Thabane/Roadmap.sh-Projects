@@ -1,0 +1,99 @@
+<!DOCTYPE html>
+<html lang="en" class="dark">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>MacOS-style Project Dashboard</title>
+  <script src="https://cdn.tailwindcss.com"></script>
+  <script src="https://cdn.jsdelivr.net/npm/handlebars@latest/dist/handlebars.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/interact.js/1.10.11/interact.min.js"></script>
+  <script>
+    tailwind.config = {
+      darkMode: 'class'
+    };
+  </script>
+  <style>
+    .window-controls div {
+      height: 12px;
+      width: 12px;
+      border-radius: 9999px;
+    }
+    .projectFrame {
+      transition: all 0.3s ease;
+    }
+    .mac-window {
+      border-radius: 12px;
+      transition: all 0.4s ease;
+    }
+    #windowContainer {
+      transition: all 0.4s ease;
+    }
+  </style>
+</head>
+<body class="bg-gray-100 dark:bg-gray-900 text-gray-800 dark:text-white font-sans">
+
+  <!-- Main Layout -->
+  <div class="flex h-screen overflow-hidden">
+    
+    <!-- Sidebar -->
+    <aside class="w-64 bg-white dark:bg-gray-800 border-r border-gray-300 dark:border-gray-700 p-4 space-y-4">
+      <div class="text-xl font-bold">Filters</div>
+
+      <!-- Project Name Search -->
+      <input type="text" id="searchInput" placeholder="Search by project name..." class="w-full p-2 rounded bg-gray-100 dark:bg-gray-700 text-gray-800 dark:text-white">
+
+    <!-- Tech Stack Filter (dynamic checkboxes) -->
+    <div>
+      <label class="block text-sm font-medium mb-1">Tech Stack</label>
+      <div id="techStackFilterContainer" class="space-y-1 max-h-40 overflow-y-auto pr-1">
+        <!-- checkboxes will be injected here -->
+      </div>
+    </div>
+    </aside>
+
+    <!-- Main Content -->
+    <main class="flex-1 overflow-y-auto p-6 bg-gray-800 ">
+      <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6" id="projects"></div>
+    </main>
+  </div>
+
+  <!-- Modal Window -->
+  <div id="windowContainer" class="fixed top-10 left-10 w-[80vw] h-[70vh] hidden flex flex-col rounded-xl shadow-2xl border border-gray-300 bg-white dark:bg-gray-800 z-100 mac-window">
+    <div class="bg-gray-200 dark:bg-gray-700 p-2 flex items-center justify-between rounded-tr-xl rounded-tl-xl">
+      <div class="flex space-x-2 window-controls pl-2 rounded-full">
+        <div onclick="closeWindow()" class="bg-red-500 cursor-pointer"></div>
+        <div onclick="minimizeWindow()" class="bg-yellow-500 cursor-pointer"></div>
+        <div onclick="maximizeWindow()" class="bg-green-500 cursor-pointer"></div>
+      </div>
+    </div>
+    <iframe id="projectFrame" src="" class="projectFrame flex-1 w-full h-full border-none rounded-b-xl"></iframe>
+  </div>
+
+  <!-- Dock -->
+  <div id="dock" class="fixed dock z-40 flex space-x-3 bg-white dark:bg-gray-700 p-3 rounded-full shadow-xl hidden">
+    <button onclick="restoreWindow()" class="dock-icon bg-blue-600 hover:bg-blue-700 text-white px-3 py-1 rounded-full text-sm">
+      Restore App
+    </button>
+  </div>
+
+  <!-- Handlebars Template -->
+  <script id="projects-template" type="text/x-handlebars-template">
+    {{#each projects}}
+      <div class="app-card fade-in bg-white/30 dark:bg-white/10 backdrop-blur-xl rounded-xl overflow-hidden border border-white/30 shadow-lg transition hover:scale-105 duration-300 cursor-pointer" onclick="openWindow('{{this.url}}')">
+        <div class="p-4">
+          <h1 class="text-2xl font-bold my-2">{{this.projectName}}</h1>
+          <p class="text-sm text-gray-800 dark:text-gray-300 mb-3">{{this.description}}</p>
+          <div class="flex flex-wrap gap-2">
+            {{#each this.techStack}}
+              <span class="bg-white/40 dark:bg-white/20 text-xs px-2 py-1 rounded-full">{{this}}</span>
+            {{/each}}
+          </div>
+        </div>
+      </div>
+    {{/each}}
+  </script>
+
+  <!-- Script -->
+  <script type="module" src="./script.js"></script>
+</body>
+</html>
